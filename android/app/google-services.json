@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "883301328379",
+    "project_id": "well-clean-a3318",
+    "storage_bucket": "well-clean-a3318.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:883301328379:android:b8b8be5f67c63dfee3975e",
+        "android_client_info": {
+          "package_name": "com.example.wellclean"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9hg2bQbk0rsCEb89bWaPMj_qZKR9tcto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

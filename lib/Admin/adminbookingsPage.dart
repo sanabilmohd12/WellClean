@@ -11,7 +11,6 @@ class adminbookingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -35,10 +34,14 @@ class adminbookingsPage extends StatelessWidget {
                   bottomLeft: Radius.circular(15),
                   bottomRight: Radius.circular(15)))),
       body: StreamBuilder<List<Booking>>(
-        stream: Provider.of<MainProvider>(context, listen: false).bookingsStream,
+        stream:
+            Provider.of<MainProvider>(context, listen: false).bookingsStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: SpinKitRipple(color: Color(0xbd380038),));
+            return Center(
+                child: SpinKitRipple(
+              color: Color(0xbd380038),
+            ));
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -48,46 +51,73 @@ class adminbookingsPage extends StatelessWidget {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 Booking booking = snapshot.data![index];
-                return ExpansionTile(
-                  title: Text('${booking.serviceType} - ${booking.selectedVenture}'),
-                  subtitle: Text('Date: ${booking.date}, Status: ${booking.status}'),
-                  children: [
-                    ListTile(
-                      title: Text('Name: ${booking.serviceAddress.username}'),
-                      subtitle: Text('Mobile: ${booking.serviceAddress.mobileNumber}'),
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ExpansionTile(
+                    textColor: Colors.white,
+                    collapsedTextColor: Color(0xff651971),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.white, width: 2),
+                        borderRadius: BorderRadius.circular(6)),
+                    collapsedShape: RoundedRectangleBorder(
+                        side: BorderSide(color: Color(0xff651971), width: 2),
+                        borderRadius: BorderRadius.circular(6)),
+                    backgroundColor: Color(0xbdf14df1),
+                    collapsedBackgroundColor: Colors.white,
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${booking.serviceAddress.username}\n'
+                            '${booking.serviceAddress.mobileNumber}\n'
+                            'Address: ${booking.serviceAddress.userAddress}\n'
+                            '${booking.serviceAddress.district}, ${booking.serviceAddress.state} - ${booking.serviceAddress.pincode}'),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text(
+                              '${booking.serviceType} - ${booking.selectedVenture}'),
+                        ),
+                      ],
                     ),
-                    ListTile(
-                      title: Text('Address: ${booking.serviceAddress.userAddress}'),
-                      subtitle: Text('${booking.serviceAddress.district}, ${booking.serviceAddress.state} - ${booking.serviceAddress.pincode}'),
-                    ),
-                    ListTile(
-                      title: Text('Advance Payment: ₹${booking.advancePayment}'),
-                      subtitle: Text('Booked Date: ${booking.bookedDate}'),
-                    ),
-                    Consumer<MainProvider>(
-                      builder: (context,value,child) {
+                    subtitle: Text(
+                        'Date: ${booking.date}, Status: ${booking.status}'),
+                    children: [
+                      ListTile(
+                        title:
+                            Text('Advance Payment: ₹${booking.advancePayment}',style: TextStyle( color: Colors.white)),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Text(
+                                  'Selected Services: ${booking.selectedServices.join(", ")}',style: TextStyle( color: Colors.white)),
+                            ),
+                            Text('Booked Date: ${booking.bookedDate}',style: TextStyle( color: Colors.white)),
+                          ],
+                        ),
+                      ),
+                      Consumer<MainProvider>(builder: (context, value, child) {
                         return ListTile(
-                          title: Text('Change Status:'),
+                          title: Text('Update Status:',style: TextStyle( color: Colors.white)),
                           trailing: DropdownButton<String>(
-                            value:value.dropdown,
-                            items: value.statusOptions.map<DropdownMenuItem<String>>(
-                                    (String status) {
+                            value: value.dropdown,
+                            items: value.statusOptions
+                                .map<DropdownMenuItem<String>>((String status) {
                               return DropdownMenuItem<String>(
                                 value: status,
-                                child: Text(status),
+                                child: Text(status,style: TextStyle( color: Colors.white)),
                               );
                             }).toList(),
                             onChanged: (String? newValue) {
-                                  value.statuschange(newValue);
-                                  value.bookingstatus(booking.id);
-
+                              value.statuschange(newValue);
+                              value.bookingstatus(booking.id);
                             },
                           ),
                         );
-                      }
-                    ),
-
-                  ],
+                      }),
+                    ],
+                  ),
                 );
               },
             );
@@ -96,7 +126,6 @@ class adminbookingsPage extends StatelessWidget {
       ),
     );
   }
-
 }
 
 //

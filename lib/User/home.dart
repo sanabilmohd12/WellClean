@@ -244,6 +244,7 @@ class homePage extends StatelessWidget {
                 );
               }),
             ),
+            space(),
           ],
         ),
       ),

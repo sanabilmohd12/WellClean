@@ -729,8 +729,11 @@ class MainProvider extends ChangeNotifier {
         .collection("VENTURES")
         .get()
         .then((value) {
+      ventureResidence.clear();
+
       if (value.docs.isNotEmpty) {
         ventureResidence.clear();
+
         for (var element in value.docs) {
           ventureResidence.add(
             ventureResidencemdlclss(
@@ -885,13 +888,17 @@ class MainProvider extends ChangeNotifier {
 
   List<ResidenceCTypemodelclass> ResidenceCTypemodelclasslist = [];
   void getCType(String serviceId) {
+    print('function called');
     db
         .collection("MANAGESERVICES")
         .doc(serviceId)
         .collection("CTypes")
         .get()
         .then((value) {
+      ResidenceCTypemodelclasslist.clear();
+
       if (value.docs.isNotEmpty) {
+        print('value ind');
         ResidenceCTypemodelclasslist.clear();
         for (var element in value.docs) {
           ResidenceCTypemodelclasslist.add(ResidenceCTypemodelclass(element.id,
@@ -922,6 +929,7 @@ class MainProvider extends ChangeNotifier {
     ResidenceCTypeNameController.clear();
     ResidenceCTypefileimg = null;
     ResidenceCTypeimg = "";
+
   }
 
 

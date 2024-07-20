@@ -72,17 +72,17 @@ class bookingsPage extends StatelessWidget {
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Selected Services: ${booking.selectedServices.join(",")}'),
+                              Text(
+                                  'Selected Services: ${booking.selectedServices.join(",")}'),
                               Text('Booked on: ${booking.bookedDate}'),
                               Text('Service Date: ${booking.date}'),
                               Text(
                                 'Address: ${booking.serviceAddress.username}\n'
-                                    '${booking.serviceAddress.mobileNumber}\n'
-                                    '${booking.serviceAddress.userAddress}\n'
-                                    '${booking.serviceAddress.district}, ${booking.serviceAddress.state}\n'
-                                    '${booking.serviceAddress.pincode}', // Adjust the style as needed
+                                '${booking.serviceAddress.mobileNumber}\n'
+                                '${booking.serviceAddress.userAddress}\n'
+                                '${booking.serviceAddress.district}, ${booking.serviceAddress.state}\n'
+                                '${booking.serviceAddress.pincode}',
                               ),
-
                               RichText(
                                 text: TextSpan(
                                   style: DefaultTextStyle.of(context).style,
@@ -112,15 +112,18 @@ class bookingsPage extends StatelessWidget {
                               width: width / 5,
                               height: height / 30,
                               decoration: ShapeDecoration(
-                                  gradient: LinearGradient(colors: [
-                                    Color(0xff6c046c),
-                                    Color(0xffa955a9),
-                                    Color(0xff6c046c),
-                                  ]),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadiusDirectional.horizontal(
-                                              start: Radius.circular(15)))),
+                                gradient: LinearGradient(colors: [
+                                  Color(0xff6c046c),
+                                  Color(0xffa955a9),
+                                  Color(0xff6c046c),
+                                ]),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadiusDirectional.horizontal(
+                                    start: Radius.circular(15),
+                                  ),
+                                ),
+                              ),
                               child: Center(
                                 child: Text(
                                   '₹${booking.advancePayment}',

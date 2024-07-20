@@ -117,7 +117,10 @@ import 'package:wellclean/User/home.dart';
 import 'package:wellclean/User/profile.dart';
 class BottomNavBar extends StatefulWidget {
   final String userId;
-  const BottomNavBar({Key? key, required this.userId}) : super(key: key);
+  final String regUsername;
+  final String regUsernumber;
+
+  const BottomNavBar({Key? key, required this.userId,required this.regUsername,required this.regUsernumber,}) : super(key: key);
 
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
@@ -133,9 +136,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   void initState() {
     super.initState();
     screens = [
-      homePage(userId: widget.userId,),
+      homePage(userId: widget.userId, regUsername:  widget.regUsername, regUsernumber: widget.regUsernumber,),
       bookingsPage(userId: widget.userId,),
-      profilePage(userId: widget.userId),
+      profilePage(userId: widget.userId, regUsername: widget.regUsername, regUsernumber: widget.regUsernumber,),
     ];
   }
 

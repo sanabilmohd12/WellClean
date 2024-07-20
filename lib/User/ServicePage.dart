@@ -13,8 +13,18 @@ class servicePage extends StatelessWidget {
   final String serviceType;
   final String advance;
   final String userId;
+  final String regUsername;
+  final String regUsernumber;
 
-  const servicePage({super.key, required this.serviceId,required this.serviceType, required this.advance, required this.userId,});
+  const servicePage({
+    super.key,
+    required this.serviceId,
+    required this.serviceType,
+    required this.advance,
+    required this.userId,
+    required this.regUsername,
+    required this.regUsernumber,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +32,12 @@ class servicePage extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     MainProvider mainprovider =
         Provider.of<MainProvider>(context, listen: false);
+    bool isLoading = true;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       mainprovider.getVentures(serviceId);
       mainprovider.getCType(serviceId);
+      bool isLoading = false;
+
     });
 
     return GestureDetector(
@@ -51,114 +64,211 @@ class servicePage extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(15),
                     bottomRight: Radius.circular(15)))),
-        body: Consumer<MainProvider>(
-          builder: (context,proValue,child) {
+        body: Consumer<MainProvider>(builder: (context, proValue, child) {
 
-            return proValue.ventureResidence.isNotEmpty && proValue.ResidenceCTypemodelclasslist.isNotEmpty ? SingleChildScrollView(
-              child:  Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  space(),
-                  toplefttext("Select your Place"),
-                  // Consumer<MainProvider>(builder: (context, value, child) {
-                  //   return Container(
-                  //     width: width / 1.1,
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(15),
-                  //     ),
-                  //     child: DropdownButton(
-                  //       isExpanded: true,
-                  //       value: value.dropresidencevalue,
-                  //       icon: Icon(Icons.arrow_drop_down_circle_outlined),
-                  //       onChanged: (val) {
-                  //         value.setDropvalue0(val);
-                  //       },
-                  //       items: value.dropresidencelist
-                  //           .map<DropdownMenuItem<String>>((String value) {
-                  //         return DropdownMenuItem<String>(
-                  //           value: value,
-                  //           child: Text(value),
-                  //         );
-                  //       }).toList(),
-                  //       borderRadius: BorderRadius.circular(12),
-                  //       iconEnabledColor: Color(0xff6a516b),
-                  //       dropdownColor: Colors.white,
-                  //       style: TextStyle(
-                  //           fontSize: 18,
-                  //           fontWeight: FontWeight.bold,
-                  //           color: Color(0xff6a516b)),
-                  //     ),
-                  //   );
-                  // }),
-                  Consumer<MainProvider>(
-                    builder: (context, value, child) {
-                      return Autocomplete<ventureResidencemdlclss>(
-                        optionsBuilder: (TextEditingValue textEditingValue) {
-                          return value.ventureResidence
-                              .where((ventureResidencemdlclss item) => item.venturename
-                              .toLowerCase()
-                              .contains(textEditingValue.text.toLowerCase()))
-                              .toList();
-                        },
-                        displayStringForOption: (ventureResidencemdlclss option) =>
-                        option.venturename,
-                        fieldViewBuilder: (BuildContext context,
-                            TextEditingController fieldTextEditingController,
-                            FocusNode fieldFocusNode,
-                            VoidCallback onFieldSubmitted) {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            fieldTextEditingController.text =
-                                value.VentureController.text;
-                          });
+          return proValue.ventureResidence.isNotEmpty &&
+                  proValue.ResidenceCTypemodelclasslist.isNotEmpty
+              ? SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      space(),
+                      toplefttext("Select your Place"),
+                      // Consumer<MainProvider>(builder: (context, value, child) {
+                      //   return Container(
+                      //     width: width / 1.1,
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(15),
+                      //     ),
+                      //     child: DropdownButton(
+                      //       isExpanded: true,
+                      //       value: value.dropresidencevalue,
+                      //       icon: Icon(Icons.arrow_drop_down_circle_outlined),
+                      //       onChanged: (val) {
+                      //         value.setDropvalue0(val);
+                      //       },
+                      //       items: value.dropresidencelist
+                      //           .map<DropdownMenuItem<String>>((String value) {
+                      //         return DropdownMenuItem<String>(
+                      //           value: value,
+                      //           child: Text(value),
+                      //         );
+                      //       }).toList(),
+                      //       borderRadius: BorderRadius.circular(12),
+                      //       iconEnabledColor: Color(0xff6a516b),
+                      //       dropdownColor: Colors.white,
+                      //       style: TextStyle(
+                      //           fontSize: 18,
+                      //           fontWeight: FontWeight.bold,
+                      //           color: Color(0xff6a516b)),
+                      //     ),
+                      //   );
+                      // }),
+                      Consumer<MainProvider>(
+                        builder: (context, value, child) {
+                          return Autocomplete<ventureResidencemdlclss>(
+                            optionsBuilder:
+                                (TextEditingValue textEditingValue) {
+                              return value.ventureResidence
+                                  .where((ventureResidencemdlclss item) =>
+                                      item.venturename.toLowerCase().contains(
+                                          textEditingValue.text.toLowerCase()))
+                                  .toList();
+                            },
+                            displayStringForOption:
+                                (ventureResidencemdlclss option) =>
+                                    option.venturename,
+                            fieldViewBuilder: (BuildContext context,
+                                TextEditingController
+                                    fieldTextEditingController,
+                                FocusNode fieldFocusNode,
+                                VoidCallback onFieldSubmitted) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                fieldTextEditingController.text =
+                                    value.VentureController.text;
+                              });
 
-                          return ValueListenableBuilder<TextEditingValue>(
-                            valueListenable: fieldTextEditingController,
-                            builder: (context, textValue, child) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  child: SizedBox(
-                                    width: MediaQuery.of(context).size.width / 1.1,
-                                    child: TextFormField(
-                                      keyboardType: TextInputType.none,
-                                      cursorColor: Color(0xff6e217a),
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                          color: Color(0xbd490b49),
-                                          fontWeight: FontWeight.w500
+                              return ValueListenableBuilder<TextEditingValue>(
+                                valueListenable: fieldTextEditingController,
+                                builder: (context, textValue, child) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.1,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.none,
+                                          cursorColor: Color(0xff6e217a),
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              color: Color(0xbd490b49),
+                                              fontWeight: FontWeight.w500),
+                                          decoration: InputDecoration(
+                                            suffixIcon: textValue
+                                                    .text.isNotEmpty
+                                                ? IconButton(
+                                                    icon: Icon(
+                                                        Icons.clear_rounded),
+                                                    onPressed: () {
+                                                      fieldTextEditingController
+                                                          .clear();
+                                                      value.VentureController
+                                                          .clear();
+                                                      // FocusScope.of(context).unfocus();
+                                                    },
+                                                  )
+                                                : Icon(Icons
+                                                    .arrow_drop_down_rounded),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xbd563c56)),
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            hintText: "Select One",
+                                            hintStyle: const TextStyle(
+                                                color: Color(0xbd563c56),
+                                                fontWeight: FontWeight.bold),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          controller:
+                                              fieldTextEditingController,
+                                          focusNode: fieldFocusNode,
+                                        ),
                                       ),
-                                      decoration: InputDecoration(
-                                        suffixIcon: textValue.text.isNotEmpty
-                                            ? IconButton(
-                                          icon: Icon(Icons.clear_rounded),
-                                          onPressed: () {
-                                            fieldTextEditingController.clear();
-                                            value.VentureController.clear();
-                                            // FocusScope.of(context).unfocus();
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            onSelected: (ventureResidencemdlclss selection) {
+                              value.VentureController.text =
+                                  selection.venturename;
+                              value.ventureSelectedid = selection.id;
+                            },
+
+                            // Keep your existing optionsViewBuilder
+                            optionsViewBuilder: (BuildContext context,
+                                AutocompleteOnSelected<ventureResidencemdlclss>
+                                    onSelected,
+                                Iterable<ventureResidencemdlclss> options) {
+                              return Align(
+                                alignment: Alignment.topCenter,
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Color(0xad380038),
+                                              spreadRadius: 1,
+                                              blurRadius: 1)
+                                        ],
+                                        color: Color(0xFFFFFCFF),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    width: 200,
+                                    height: 160,
+                                    child: ListView.builder(
+                                      padding: const EdgeInsets.all(10.0),
+                                      itemCount: options.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final ventureResidencemdlclss option =
+                                            options.elementAt(index);
+
+                                        return GestureDetector(
+                                          onTap: () {
+                                            onSelected(option);
                                           },
-                                        )
-                                            : Icon(Icons.arrow_drop_down_rounded),
-                                        focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(color: Color(0xbd563c56)),
-                                            borderRadius: BorderRadius.circular(10)
-                                        ),
-                                        hintText: "Select One",
-                                        hintStyle: const TextStyle(
-                                            color: Color(0xbd563c56),
-                                            fontWeight: FontWeight.bold
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      controller: fieldTextEditingController,
-                                      focusNode: fieldFocusNode,
-
-
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    color: Colors.transparent
+                                                    // border: Border(left: BorderSide(color: Colors.white,width: .6,
+                                                    // ))
+                                                    ),
+                                                height: 30,
+                                                width: 200,
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Center(
+                                                        child: Text(
+                                                            option.venturename,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color:
+                                                                  Colors.black,
+                                                            )),
+                                                      ),
+                                                    ]),
+                                              ),
+                                              Divider(
+                                                thickness: 1,
+                                                color: Colors.black,
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
@@ -166,249 +276,199 @@ class servicePage extends StatelessWidget {
                             },
                           );
                         },
-                        onSelected: (ventureResidencemdlclss selection) {
-                          value.VentureController.text = selection.venturename;
-                          value.ventureSelectedid = selection.id;
-                        },
-
-                        // Keep your existing optionsViewBuilder
-                        optionsViewBuilder: (BuildContext context,
-                            AutocompleteOnSelected<ventureResidencemdlclss> onSelected,
-                            Iterable<ventureResidencemdlclss> options) {
-                          return Align(
-                            alignment: Alignment.topCenter,
-                            child: Material(
-                              color: Colors.transparent,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Color(0xad380038),
-                                          spreadRadius: 1,
-                                          blurRadius: 1)
-                                    ],
-                                    color: Color(0xFFFFFCFF),
-                                    borderRadius: BorderRadius.circular(10)),
-                                width: 200,
-                                height: 160,
-                                child: ListView.builder(
-                                  padding: const EdgeInsets.all(10.0),
-                                  itemCount: options.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    final ventureResidencemdlclss option =
-                                    options.elementAt(index);
-
-                                    return GestureDetector(
-                                      onTap: () {
-                                        onSelected(option);
-                                      },
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                color: Colors.transparent
-                                              // border: Border(left: BorderSide(color: Colors.white,width: .6,
-                                              // ))
-                                            ),
-                                            height: 30,
-                                            width: 200,
-                                            child: Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                                children: [
-                                                  Center(
-                                                    child: Text(option.venturename,
-                                                        style: const TextStyle(
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.black,
-                                                        )),
-                                                  ),
-                                                ]),
-                                          ),
-                                          Divider(
-                                            thickness: 1,
-                                            color: Colors.black,
-                                          ),
-                                        ],
-                                      ),
-                                    );
+                      ),
+                      space(),
+                      // toplefttext("Type of Cleaning"),
+                      // Consumer<MainProvider>(builder: (context, value, child) {
+                      //   return Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //     children: [
+                      //       Container(
+                      //         height: 180,
+                      //         width: 155,
+                      //         decoration: BoxDecoration(
+                      //             image: DecorationImage(
+                      //                 image: AssetImage("assets/type1.png")),
+                      //             borderRadius: BorderRadius.circular(15)),
+                      //         child: RadioListTile(
+                      //             tileColor: Color(0xff5d9296),
+                      //             shape: RoundedRectangleBorder(
+                      //                 borderRadius: BorderRadius.circular(15)),
+                      //             selectedTileColor: Color(0xff0f4350),
+                      //             // selected: true,
+                      //             // selected: value.radioselectvalue,
+                      //             value: 1,
+                      //             groupValue: value.residentialradiotypevalue,
+                      //             onChanged: (val) {
+                      //               value.radiovalue0(val);
+                      //             },
+                      //             activeColor: Color(0xFFFFF1E2)),
+                      //       ),
+                      //       Container(
+                      //         height: 180,
+                      //         width: 155,
+                      //         decoration: BoxDecoration(
+                      //             image: DecorationImage(
+                      //                 image: AssetImage("assets/type2.png")),
+                      //             borderRadius: BorderRadius.circular(15)),
+                      //         child: RadioListTile(
+                      //           tileColor: Color(0xff5d9296),
+                      //           shape: RoundedRectangleBorder(
+                      //               borderRadius: BorderRadius.circular(15)),
+                      //           selectedTileColor: Color(0xff0f4350),
+                      //           // selected: value.radioselectvalue,
+                      //           // selected: true ,
+                      //
+                      //           value: 0,
+                      //           groupValue: value.residentialradiotypevalue,
+                      //           onChanged: (val) {
+                      //             value.radiovalue0(val);
+                      //           },
+                      //           activeColor: Color(0xFFFFF1E2),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   );
+                      // }),
+                      // space(),
+                      toplefttext("Services"),
+                      Consumer<MainProvider>(builder: (context, value, child) {
+                        return ListView.builder(
+                            padding: EdgeInsets.zero,
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount:
+                                value.ResidenceCTypemodelclasslist.length,
+                            itemBuilder: (context, index) {
+                              bool isSelected = value.getCheckboxValue(index);
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5.0, horizontal: 12),
+                                child: CheckboxListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  dense: true,
+                                  tileColor: Colors.white,
+                                  title: Text(
+                                      value.ResidenceCTypemodelclasslist[index]
+                                          .name
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 17)),
+                                  secondary: Container(
+                                    height: 48,
+                                    width: 48,
+                                    decoration: ShapeDecoration(
+                                        color: value.servlistContainercolor[
+                                            index %
+                                                value.servlistContainercolor
+                                                    .length],
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        image: DecorationImage(
+                                            image: NetworkImage(value
+                                                .ResidenceCTypemodelclasslist[
+                                                    index]
+                                                .image
+                                                .toString()))),
+                                    // child: Image.network(
+                                    //     value.ResidenceCTypemodelclasslist[index].image.toString())
+                                  ),
+                                  checkboxShape: CircleBorder(),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15)),
+                                  selectedTileColor: value.servlistselectcolor[
+                                      index % value.servlistselectcolor.length],
+                                  activeColor: Color(0xbd380038),
+                                  selected: isSelected,
+                                  value: isSelected,
+                                  onChanged: (bool? newValue) {
+                                    value.setCheckboxValue(
+                                        index, newValue ?? false);
                                   },
                                 ),
+                              );
+                            });
+                      }),
+                      space(),
+                      Consumer<MainProvider>(builder: (context, value, child) {
+                        return Shimmer(
+                          duration: const Duration(seconds: 1), //Default value
+                          interval: const Duration(seconds: 2),
+                          color: Colors.white,
+                          colorOpacity: 0.3, //Default value
+                          enabled: true, //Default value
+                          direction: ShimmerDirection.fromLeftToRight(),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  WidgetStatePropertyAll(Color(0xff750475)),
+                              shape: WidgetStatePropertyAll(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6)),
                               ),
+                              fixedSize:
+                                  WidgetStatePropertyAll(Size(190, 40)),
+                              // shadowColor: MaterialStatePropertyAll(Color(0xBD000000)),
                             ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  space(),
-                  // toplefttext("Type of Cleaning"),
-                  // Consumer<MainProvider>(builder: (context, value, child) {
-                  //   return Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //     children: [
-                  //       Container(
-                  //         height: 180,
-                  //         width: 155,
-                  //         decoration: BoxDecoration(
-                  //             image: DecorationImage(
-                  //                 image: AssetImage("assets/type1.png")),
-                  //             borderRadius: BorderRadius.circular(15)),
-                  //         child: RadioListTile(
-                  //             tileColor: Color(0xff5d9296),
-                  //             shape: RoundedRectangleBorder(
-                  //                 borderRadius: BorderRadius.circular(15)),
-                  //             selectedTileColor: Color(0xff0f4350),
-                  //             // selected: true,
-                  //             // selected: value.radioselectvalue,
-                  //             value: 1,
-                  //             groupValue: value.residentialradiotypevalue,
-                  //             onChanged: (val) {
-                  //               value.radiovalue0(val);
-                  //             },
-                  //             activeColor: Color(0xFFFFF1E2)),
-                  //       ),
-                  //       Container(
-                  //         height: 180,
-                  //         width: 155,
-                  //         decoration: BoxDecoration(
-                  //             image: DecorationImage(
-                  //                 image: AssetImage("assets/type2.png")),
-                  //             borderRadius: BorderRadius.circular(15)),
-                  //         child: RadioListTile(
-                  //           tileColor: Color(0xff5d9296),
-                  //           shape: RoundedRectangleBorder(
-                  //               borderRadius: BorderRadius.circular(15)),
-                  //           selectedTileColor: Color(0xff0f4350),
-                  //           // selected: value.radioselectvalue,
-                  //           // selected: true ,
-                  //
-                  //           value: 0,
-                  //           groupValue: value.residentialradiotypevalue,
-                  //           onChanged: (val) {
-                  //             value.radiovalue0(val);
-                  //           },
-                  //           activeColor: Color(0xFFFFF1E2),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   );
-                  // }),
-                  // space(),
-                  toplefttext("Services"),
-                  Consumer<MainProvider>(builder: (context, value, child) {
-                    return ListView.builder(
-                        padding: EdgeInsets.zero,
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: value.ResidenceCTypemodelclasslist.length,
-                        itemBuilder: (context, index) {
-                          bool isSelected = value.getCheckboxValue(index);
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 5.0, horizontal: 12),
-                            child: CheckboxListTile(
-                              contentPadding: EdgeInsets.zero,
-                              dense: true,
-                              tileColor: Colors.white,
-                              title: Text(
-                                  value.ResidenceCTypemodelclasslist[index].name
-                                      .toString(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w300, fontSize: 17)),
-                              secondary: Container(
-                                height: 48,
-                                width: 48,
-                                decoration: ShapeDecoration(
-                                    color: value.servlistContainercolor[index %value.servlistContainercolor.length],
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10)),
-                                    image: DecorationImage(
-                                        image: NetworkImage(value
-                                            .ResidenceCTypemodelclasslist[index].image
-                                            .toString()))),
-                                // child: Image.network(
-                                //     value.ResidenceCTypemodelclasslist[index].image.toString())
-                              ),
-                              checkboxShape: CircleBorder(),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                              selectedTileColor: value.servlistselectcolor[index % value.servlistselectcolor.length],
-                              activeColor: Color(0xbd380038),
-                              selected: isSelected,
-                              value: isSelected,
-                              onChanged: (bool? newValue) {
-                                value.setCheckboxValue(index, newValue ?? false);
-                              },
-                            ),
-                          );
-                        });
-                  }),
-                  space(),
-                Consumer<MainProvider>(
-                  builder: (context,value,child) {
-                    return Shimmer(
-                      duration: const Duration(seconds: 1), //Default value
-                      interval: const Duration(seconds: 2),
-                      color: Colors.white,
-                      colorOpacity: 0.3, //Default value
-                      enabled: true, //Default value
-                      direction: ShimmerDirection.fromLeftToRight(),
-                      child: ElevatedButton(
-                        style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Color(0xff750475)),
-                          shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),),
-                          fixedSize: MaterialStatePropertyAll(Size(190, 40)),
-                          // shadowColor: MaterialStatePropertyAll(Color(0xBD000000)),
-                        ),
-                        onPressed: () {
+                            onPressed: () {
+                              List<ResidenceCTypemodelclass> selectedServices =
+                                  value.getSelectedServices();
 
-                          List<ResidenceCTypemodelclass> selectedServices = value.getSelectedServices();
+                              String selectedVenture =
+                                  value.VentureController.text;
+                              String selectedVentureId =
+                                  value.ventureSelectedid;
 
-                          String selectedVenture = value.VentureController.text;
-                          String selectedVentureId = value.ventureSelectedid;
-
-                          if (selectedVenture.isNotEmpty && selectedServices.isNotEmpty) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => checkoutPage(
-                                  selectedServices: selectedServices,
-                                  selectedVenture: selectedVenture,
-                                  selectedVentureId: selectedVentureId,
-                                  serviceId: serviceId,
-                                  serviceType: serviceType,
-                                  advance: advance, userId: userId,
-                                ),
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Please select a venture and at least one service')),
-                            );
-                          }
-                        },
-                        child: Center(
-                            child: Text(
+                              if (selectedVenture.isNotEmpty &&
+                                  selectedServices.isNotEmpty) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => checkoutPage(
+                                      selectedServices: selectedServices,
+                                      selectedVenture: selectedVenture,
+                                      selectedVentureId: selectedVentureId,
+                                      serviceId: serviceId,
+                                      serviceType: serviceType,
+                                      advance: advance,
+                                      userId: userId,
+                                      regUsername: regUsername,
+                                      regUsernumber: regUsernumber,
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          'Please select a venture and at least one service')),
+                                );
+                              }
+                            },
+                            child: Center(
+                                child: Text(
                               "Continue",
-                              style: TextStyle(color: Color(0xFFFEF1E2), fontSize: 15),
+                              style: TextStyle(
+                                  color: Color(0xFFFEF1E2), fontSize: 15),
                             )),
-                      ),
-                    );
-                  }
-                ),
-                  // buttons(Color(0xff750475), "Continue", context, checkoutPage()),
-                  space()
-                ],
-              ) ,
-            ): Center(
-              child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Lottie.asset("assets/comingsoon.json",width: 150),]),
-            );
-          }
-        ),
+                          ),
+                        );
+                      }),
+                      // buttons(Color(0xff750475), "Continue", context, checkoutPage()),
+                      space()
+                    ],
+                  ),
+                )
+              : Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset("assets/comingsoon.json", width: 150),
+                      ]),
+                );
+        }) ,
       ),
     );
   }

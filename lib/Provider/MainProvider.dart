@@ -112,14 +112,25 @@ class MainProvider extends ChangeNotifier {
   }
 
 
-
-  void bookingstatus(String id){
-    print("fvfvf"+id);
-    Map<String ,dynamic> map = HashMap();
-    map["status"]=dropdown;
-    db.collection("BOOKINGS").doc(id).update(map);
-    notifyListeners();
+  Future<void> bookingstatus(String id) async {
+    try {
+      print("Updating booking status for ID: $id");
+      await db.collection("BOOKINGS").doc(id).update({"status": dropdown});
+      print("Booking status updated successfully");
+      notifyListeners();
+    } catch (e) {
+      print("Error updating booking status: $e");
+      // You might want to handle this error, perhaps by showing a snackbar to the user
+    }
   }
+
+  // void bookingstatus(String id){
+  //   print("fvfvf"+id);
+  //   Map<String ,dynamic> map = HashMap();
+  //   map["status"]=dropdown;
+  //   db.collection("BOOKINGS").doc(id).update(map);
+  //   notifyListeners();
+  // }
 
 
 //login
@@ -321,7 +332,7 @@ class MainProvider extends ChangeNotifier {
 
   List<String> settingslistnames = [
     "Edit Profile",
-    "Chat with us",
+    "Contact us",
     "About us",
   ];
 
@@ -1015,6 +1026,9 @@ class MainProvider extends ChangeNotifier {
   // }
 
   Future<void> getAddressesFunction(String userId) async {
+    isLoading = true;
+    notifyListeners();
+
     try {
       QuerySnapshot querySnapshot = await db
           .collection("USER_ADDRESS")
@@ -1025,9 +1039,13 @@ class MainProvider extends ChangeNotifier {
           .map((doc) => UserAddressmodelclass.fromMap(doc.data() as Map<String, dynamic>))
           .toList();
 
-      notifyListeners();
     } catch (e) {
       print("Error getting addresses: $e");
+      // Optionally, you could set an error state here
+      // errorMessage = e.toString();
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
   }
 

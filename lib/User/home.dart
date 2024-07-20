@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:wellclean/Constants/customwidgets.dart';
-import 'package:wellclean/Constants/my_flutter_icons.dart';
 import 'package:wellclean/ModelClass/Model_Class.dart';
 import 'package:wellclean/Provider/MainProvider.dart';
 import 'package:wellclean/Provider/loginprovider.dart';
@@ -16,8 +15,10 @@ import 'package:wellclean/login.dart';
 
 class homePage extends StatelessWidget {
   final String userId;
+  final String regUsername;
+  final String regUsernumber;
 
-  const homePage({super.key, required this.userId});
+  const homePage({super.key, required this.userId, required this.regUsername, required this.regUsernumber});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class homePage extends StatelessWidget {
         Provider.of<MainProvider>(context, listen: false);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await Future.delayed(Duration(seconds: 2)); // Add a 2-second delay
+      await Future.delayed(Duration(seconds: 2)); //
       await Future.wait([
         mainprovider.getCarousel(),
         mainprovider.getManageservices(),
@@ -146,7 +147,8 @@ class homePage extends StatelessWidget {
                 },
                 child: Padding(
                   padding:  EdgeInsets.only(right: 12),
-                  child: Icon(Icons.logout_rounded),
+                  child: Icon(Icons.logout_rounded,
+                    color: Color(0xfffff1e2),),
                 ),
               )
             ])
@@ -209,7 +211,7 @@ class homePage extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
 
-                                        builder: (context) => servicePage(serviceId: item.id,serviceType: item.name,advance: item.advance, userId: userId),
+                                        builder: (context) => servicePage(serviceId: item.id,serviceType: item.name,advance: item.advance, userId: userId, regUsername: regUsername, regUsernumber: regUsernumber,),
                                       ));
 
                             // if (index == 0) {

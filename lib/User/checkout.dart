@@ -22,6 +22,8 @@ class checkoutPage extends StatelessWidget {
   final String serviceType;
   final String advance;
   final String userId;
+  final String regUsername;
+  final String regUsernumber;
 
   const checkoutPage({
     Key? key,
@@ -32,6 +34,8 @@ class checkoutPage extends StatelessWidget {
     required this.serviceType,
     required this.advance,
     required this.userId,
+    required this.regUsername,
+    required this.regUsernumber,
   }) : super(key: key);
 
   // const checkoutPage({super.key, required this.selectedServices, required this.selectedVenture, required this.selectedVentureId});
@@ -416,7 +420,7 @@ class checkoutPage extends StatelessWidget {
 
                               await value.addBooking(newBooking);
                               value.razorpayGateway(advance);
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavBar(userId: userId,),), (route) => false);
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavBar(userId: userId, regUsername: regUsername, regUsernumber: regUsernumber,),), (route) => false);
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('Booking confirmed successfully')),

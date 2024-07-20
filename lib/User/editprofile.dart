@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:wellclean/Constants/customwidgets.dart';
@@ -58,7 +59,18 @@ class editProfile extends StatelessWidget {
               // adressinput("Type here", "UserName", TextInputType.name),
               space(),
               Consumer<MainProvider>(builder: (context, value, child) {
-                return value.userAddresses.isNotEmpty?ListView.builder(
+
+                if (value.isLoading) {
+                  return Center(
+                    child: SpinKitRipple(
+                      color: Color(0xff750475),
+                    ),
+                  );
+                }
+
+
+                else if (value.userAddresses.isNotEmpty){
+                return ListView.builder(
                   padding: EdgeInsets.zero,
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -172,8 +184,8 @@ class editProfile extends StatelessWidget {
                                             direction: ShimmerDirection
                                                 .fromLeftToRight(),
                                             child: Container(
-                                              height: height / 21,
-                                              width: width / 4.2,
+                                              height: height / 20,
+                                              width: width / 4,
                                               decoration: ShapeDecoration(
                                                 shadows: [
                                                   BoxShadow(
@@ -230,18 +242,18 @@ class editProfile extends StatelessWidget {
                                                         address.addressId),
                                                 style: ButtonStyle(
                                                     overlayColor:
-                                                        MaterialStatePropertyAll(
+                                                        WidgetStatePropertyAll(
                                                             Color(0xff750475)),
                                                     elevation:
-                                                        MaterialStatePropertyAll(
+                                                        WidgetStatePropertyAll(
                                                             1),
                                                     fixedSize:
-                                                        MaterialStatePropertyAll(
-                                                            Size(85, 10)),
+                                                        WidgetStatePropertyAll(
+                                                            Size(width/4, height/20)),
                                                     backgroundColor:
-                                                        MaterialStatePropertyAll(
+                                                        WidgetStatePropertyAll(
                                                             Color(0xffffffff)),
-                                                    shape: MaterialStatePropertyAll(
+                                                    shape: WidgetStatePropertyAll(
                                                         RoundedRectangleBorder(
                                                             borderRadius:
                                                                 BorderRadius.circular(6)))),
@@ -278,8 +290,13 @@ class editProfile extends StatelessWidget {
                       ),
                     );
                   },
-                ):Text("No Address found");
+                );}
+                else {
+                  return Text("No Address found");
+                }
               }),
+              space(),
+              space()
             ],
           ),
         ),

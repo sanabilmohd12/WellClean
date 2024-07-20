@@ -161,20 +161,31 @@ class Booking {
     );
   }
 
-  Booking copyWith({String? status}) {
+  Booking copyWith({
+    String? id,
+    String? userId,
+    String? serviceType,
+    String? selectedVenture,
+    List<String>? selectedServices,
+    String? date,
+    String? bookedDate,
+    String? status,
+    double? advancePayment,
+    Address? serviceAddress,
+  }) {
     return Booking(
-      id: this.id,
-      userId: this.userId,
-      serviceType: this.serviceType,
-      selectedVenture: this.selectedVenture,
-      selectedServices: this.selectedServices,
-      date: this.date,
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      serviceType: serviceType ?? this.serviceType,
+      selectedVenture: selectedVenture ?? this.selectedVenture,
+      selectedServices: selectedServices ?? this.selectedServices,
+      date: date ?? this.date,
+      bookedDate: bookedDate ?? this.bookedDate,
       status: status ?? this.status,
-      advancePayment: this.advancePayment,
-      serviceAddress: this.serviceAddress, bookedDate: this.bookedDate,
+      advancePayment: advancePayment ?? this.advancePayment,
+      serviceAddress: serviceAddress ?? this.serviceAddress,
     );
-  }
-}
+  }}
 
 class Address {
   final String username;

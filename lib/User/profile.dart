@@ -8,7 +8,9 @@ import 'package:wellclean/User/editprofile.dart';
 
 class profilePage extends StatelessWidget {
    String userId;
-   profilePage({super.key, required this.userId});
+   String regUsername;
+   String regUsernumber;
+   profilePage({super.key, required this.userId, required this.regUsername, required this.regUsernumber});
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +34,16 @@ class profilePage extends StatelessWidget {
         child: Column(
           children: [
             space(),
-            Container(
-              height: 125,
-              width: 125,
-              decoration: ShapeDecoration(
-                  color: Color(0xffe4b3ee),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100))),
-            ),
-            Text("Mohammed Anas",
+
+            Text(regUsername,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
+                    color: Color(0xff6a516b))),
+            Text(regUsernumber,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                     color: Color(0xff6a516b))),
             space(),
             Consumer<MainProvider>(builder: (context, value, child) {
@@ -60,7 +60,7 @@ class profilePage extends StatelessWidget {
                     }else if(index==1){
                       showDialog(
                         context: context,
-                        builder: (context) => AlertDialog(
+                        builder: (context) => AlertDialog(shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(8)),
                           title: Center(
                             child: const Text("Contact Us",
                                 style: TextStyle(
@@ -78,7 +78,7 @@ class profilePage extends StatelessWidget {
                               width: width,
                               decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(5.9),top: Radius.circular(10))),
+                                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(5.9),top: Radius.circular(8))),
                               child: Column(
                                 children: [
                                   SizedBox(
@@ -172,8 +172,32 @@ class profilePage extends StatelessWidget {
                         ),
                       );
                     }else if(index==2){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => aboutUs(),));
-                    }
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(shape: RoundedRectangleBorder( borderRadius: BorderRadius.circular(8)),
+                          title: Center(
+                            child: const Text("About Us",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: "semibold",
+                                  color: Colors.white,
+                                )),
+                          ),
+                          contentPadding: EdgeInsets.zero,
+                          backgroundColor: Color(0xff380038),
+                          content: Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Container(
+                              height: height / 2.8,
+                              width: width,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(5.9),top: Radius.circular(8))),
+
+                            ),
+                          ),
+                        ),
+                      );                    }
                   },
                     child: ListTile(
                       leading: Image.asset(

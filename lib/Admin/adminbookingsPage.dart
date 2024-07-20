@@ -53,7 +53,7 @@ class adminbookingsPage extends StatelessWidget {
                 Booking booking = snapshot.data![index];
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ExpansionTile(
+                  child: ExpansionTile(iconColor: Colors.white,
                     textColor: Colors.white,
                     collapsedTextColor: Color(0xff651971),
                     shape: RoundedRectangleBorder(
@@ -62,7 +62,7 @@ class adminbookingsPage extends StatelessWidget {
                     collapsedShape: RoundedRectangleBorder(
                         side: BorderSide(color: Color(0xff651971), width: 2),
                         borderRadius: BorderRadius.circular(6)),
-                    backgroundColor: Color(0xbdf14df1),
+                    backgroundColor: Color(0xbd2f002f),
                     collapsedBackgroundColor: Colors.white,
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,8 +78,41 @@ class adminbookingsPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    subtitle: Text(
-                        'Date: ${booking.date}, Status: ${booking.status}'),
+                    subtitle: Consumer<MainProvider>(
+                      builder: (context,value,child) {
+                        return RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Date: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text: '${booking.date}',
+                                style: TextStyle(
+                                ),
+                              ),
+                              TextSpan(
+                                text: ', Status: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text: '${booking.status}',
+                                style: TextStyle(
+                                  color: value.getStatusColor(booking.status),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    ),
                     children: [
                       ListTile(
                         title:
@@ -98,15 +131,16 @@ class adminbookingsPage extends StatelessWidget {
                         ),
                       ),
                       Consumer<MainProvider>(builder: (context, value, child) {
-                        return ListTile(
-                          title: Text('Update Status:',style: TextStyle( color: Colors.white)),
+                        return ListTile(tileColor: Colors.white,
+                          title: Text('Update Status:',style: TextStyle( color: Color(0xbd2f002f))),
                           trailing: DropdownButton<String>(
+                            dropdownColor: Colors.white,
                             value: value.dropdown,
                             items: value.statusOptions
                                 .map<DropdownMenuItem<String>>((String status) {
                               return DropdownMenuItem<String>(
                                 value: status,
-                                child: Text(status,style: TextStyle( color: Colors.white)),
+                                child: Text(status,style: TextStyle( color: Color(0xbd2f002f))),
                               );
                             }).toList(),
                             onChanged: (String? newValue) {

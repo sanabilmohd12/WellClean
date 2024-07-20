@@ -143,7 +143,7 @@ class dashboardPage extends StatelessWidget {
                 },
                 child: Padding(
                   padding:  EdgeInsets.only(right: 12),
-                  child: Icon(Icons.logout_rounded),
+                  child: Icon(Icons.logout_rounded,color: Color(0xfffff1e2),),
                 ),
               )
             ])

@@ -136,7 +136,7 @@ class loginprovider extends ChangeNotifier {
               print("mxnxn");
 
 
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottomNavBar(userId: uid)));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => BottomNavBar(userId: uid, regUsername: loginUsername, regUsernumber: phoneNumber,)));
 
               // db.collection("CUSTOMERS").doc(element.id).get().then((valueee){
               //   if(valueee.exists){
